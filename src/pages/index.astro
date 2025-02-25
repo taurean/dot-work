@@ -7,7 +7,7 @@ import type { definition, footnote } from "../util/types";
 import { definitions } from "../data/definitions";
 
 const shuffleArray = (originalArray: definition[]) => {
-    const shuffledArray = structuredClone(originalArray);
+    const shuffledArray = [...originalArray];
     for (
         let currentIndex = shuffledArray.length - 1;
         currentIndex > 0;
