@@ -1,11 +1,12 @@
 ---
 import Head from "../components/Head.astro";
 import Analytics from "@vercel/analytics/astro";
+const { title = "Taurean.work", ...props } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-    <Head />
+    <Head title={title} />
     <body>
         <Analytics />
         <slot />
