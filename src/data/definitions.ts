@@ -1,4 +1,6 @@
-export const definitions = [
+import type { definition } from "../util/types";
+
+export const definitions: definition[] = [
     {
         content:
             "[[Nuyorican:nuyorican]] [[design]] [[engineer]] living in the [[Bay Area:bayarea]] of California.",

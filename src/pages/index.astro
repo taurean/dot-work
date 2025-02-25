@@ -1,11 +1,12 @@
 ---
 import Head from "../components/Head.astro";
 import Layout from "../layouts/Layout.astro";
+import type { definition, footnote } from "../util/types";
 
 // src/components/DefinitionsList.astro
 import { definitions } from "../data/definitions";
 
-const shuffleArray = (originalArray: any[]) => {
+const shuffleArray = (originalArray: definition[]) => {
     const shuffledArray = structuredClone(originalArray);
     for (
         let currentIndex = shuffledArray.length - 1;
@@ -29,8 +30,8 @@ const footnoteRegistry = new Map();
 const orderedFootnoteList: any[] = [];
 
 // Build the footnote mapping and list from randomized definitions
-randomizedDefinitions.forEach((definition) => {
-    definition.footnotes.forEach((footnote: any) => {
+randomizedDefinitions.forEach((definition: definition) => {
+    definition.footnotes.forEach((footnote: footnote) => {
         if (!footnoteRegistry.has(footnote.id)) {
             const footnoteWithIndex = {
                 ...footnote,
