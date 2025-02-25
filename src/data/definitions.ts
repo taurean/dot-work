@@ -1,4 +1,4 @@
-export const Definitions = [
+export const definitions = [
     {
         content:
             "[[Nuyorican:nuyorican]] [[design]] [[engineer]] living in the [[Bay Area:bayarea]] of California.",

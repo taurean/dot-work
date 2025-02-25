@@ -1,41 +1,28 @@
 ---
 import Head from "../components/Head.astro";
 import Layout from "../layouts/Layout.astro";
+import { shuffleArray } from "../vendor/util";
 
 // src/components/DefinitionsList.astro
-import { Definitions } from "../data/definitions";
-
-// ===== SERVER-SIDE PROCESSING =====
-// All of this code runs on the server ONLY
-// None of this JavaScript is sent to the client
-
-// Function to shuffle array - executes on the server for each request
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-}
+import { definitions } from "../data/definitions";
 
 // Randomize definitions - different order for each page request
-const randomizedDefinitions = shuffleArray(Definitions);
+const randomizedDefinitions = shuffleArray(definitions);
 
 // Process footnotes after randomization
-const allFootnotesMap = new Map();
-const allFootnotesList = [];
+const footnoteRegistry = new Map();
+const orderedFootnoteList = [];
 
 // Build the footnote mapping and list from randomized definitions
-randomizedDefinitions.forEach((def) => {
-    def.footnotes.forEach((footnote) => {
-        if (!allFootnotesMap.has(footnote.id)) {
+randomizedDefinitions.forEach((definition) => {
+    definition.footnotes.forEach((footnote) => {
+        if (!footnoteRegistry.has(footnote.id)) {
             const footnoteWithIndex = {
                 ...footnote,
-                index: allFootnotesList.length + 1,
+                index: orderedFootnoteList.length + 1,
             };
-            allFootnotesMap.set(footnote.id, footnoteWithIndex);
-            allFootnotesList.push(footnoteWithIndex);
+            footnoteRegistry.set(footnote.id, footnoteWithIndex);
+            orderedFootnoteList.push(footnoteWithIndex);
         }
     });
 });
@@ -46,14 +33,14 @@ function processContent(content) {
         /\[\[([^:]+?)(?::([^:]+?))?\]\]/g,
         (match, textOrId, possibleId) => {
             if (possibleId) {
-                const footnoteInfo = allFootnotesMap.get(possibleId);
+                const footnoteInfo = footnoteRegistry.get(possibleId);
                 if (footnoteInfo) {
                     return `${textOrId}<sup><a href="#${possibleId}">${footnoteInfo.index}</a></sup>`;
                 }
                 return textOrId;
             } else {
                 const id = textOrId;
-                const footnoteInfo = allFootnotesMap.get(id);
+                const footnoteInfo = footnoteRegistry.get(id);
                 if (footnoteInfo) {
                     return `${id}<sup><a href="#${id}">${footnoteInfo.index}</a></sup>`;
                 }
@@ -64,13 +51,21 @@ function processContent(content) {
 }
 
 // Pre-process all definition content on the server
-const processedDefinitions = randomizedDefinitions.map((def) => ({
-    ...def,
-    processedContent: processContent(def.content),
+const processedDefinitions = randomizedDefinitions.map((definition) => ({
+    ...definition,
+    processedContent: processContent(definition.content),
 }));
 ---
 
 <Layout>
+    <header>
+        <div>
+            <h1>Taurean C. Bryant</h1>
+            <span>noun</span>
+            <button>Pronounce tor-ee-ehn</button>
+        </div>
+        <a href="/now">What's new</a>
+    </header>
     <main>
         <h2>definition</h2>
         <ul>
@@ -88,7 +83,7 @@ const processedDefinitions = randomizedDefinitions.map((def) => ({
     <footer>
         <ol>
             {
-                allFootnotesList.map((footnote) => (
+                orderedFootnoteList.map((footnote) => (
                     <li id={footnote.id}>
                         <a
                             href={footnote.linkUrl || "#"}
