@@ -1,10 +1,25 @@
 ---
 import Head from "../components/Head.astro";
 import Layout from "../layouts/Layout.astro";
-import { shuffleArray } from "../vendor/util";
 
 // src/components/DefinitionsList.astro
 import { definitions } from "../data/definitions";
+
+const shuffleArray = (originalArray: any[]) => {
+    const shuffledArray = structuredClone(originalArray);
+    for (
+        let currentIndex = shuffledArray.length - 1;
+        currentIndex > 0;
+        currentIndex--
+    ) {
+        const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
+        [shuffledArray[currentIndex], shuffledArray[randomIndex]] = [
+            shuffledArray[randomIndex],
+            shuffledArray[currentIndex],
+        ];
+    }
+    return shuffledArray;
+};
 
 // Randomize definitions - different order for each page request
 const randomizedDefinitions = shuffleArray(definitions);
