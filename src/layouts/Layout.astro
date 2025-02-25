@@ -1,11 +1,13 @@
 ---
 import Head from "../components/Head.astro";
+import Analytics from "@vercel/analytics/astro";
 ---
 
 <!doctype html>
 <html lang="en">
     <Head />
     <body>
+        <Analytics />
         <slot />
     </body>
 </html>

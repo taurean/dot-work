@@ -1,5 +1,6 @@
 ---
 import Head from "../components/Head.astro";
+import Layout from "../layouts/Layout.astro";
 
 // src/components/DefinitionsList.astro
 import { Definitions } from "../data/definitions";
@@ -69,106 +70,42 @@ const processedDefinitions = randomizedDefinitions.map((def) => ({
 }));
 ---
 
-<html lang="en">
-    <Head title="Taurean dot work" />
-    <body>
-        <header>
-            <div>
-                <h1>Taurean C. Bryant</h1>
-                <span>noun</span>
-                <button>Pronounce tor-ee-ehn</button>
-            </div>
-            <a href="/now">What's new</a>
-        </header>
+<Layout>
+    <main>
+        <h2>definition</h2>
+        <ul>
+            {
+                processedDefinitions.map((definition) => (
+                    <li>
+                        <p set:html={definition.processedContent} />
+                    </li>
+                ))
+            }
+        </ul>
+        <div>…some other content here…</div>
+    </main>
 
-        <main>
-            <h2>definition</h2>
-            <ul>
-                {
-                    processedDefinitions.map((definition) => (
-                        <li>
-                            <p set:html={definition.processedContent} />
-                        </li>
-                    ))
-                }
-            </ul>
-            <div>…some other content here…</div>
-        </main>
-
-        <footer>
-            <ol>
-                {
-                    allFootnotesList.map((footnote) => (
-                        <li id={footnote.id}>
-                            <a
-                                href={footnote.linkUrl || "#"}
-                                target={
-                                    footnote.openInNewTab ? "_blank" : "_self"
-                                }
-                                rel={
-                                    footnote.openInNewTab
-                                        ? "noopener noreferrer"
-                                        : ""
-                                }
-                            >
-                                <span class="footnoteCount">
-                                    {footnote.index}
-                                </span>{" "}
-                                {footnote.linkTitle}
-                            </a>
-                            <p>{footnote.linkDescription}</p>
-                        </li>
-                    ))
-                }
-            </ol>
-        </footer>
-
-        <!-- <main>
-            <h2>definition</h2>
-            <ul>
-                <li>
-                    <p>
-                        Nuyorican <sup><a href="#nuyorican">1</a></sup> design engineer
-                        <sup><a href="#designengineer">2</a></sup> living in the
-                        Bay Area of California
-                        <sup><a href="#places">3</a></sup>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        the designer and engineer behind Haiku<sup
-                            ><a href="#haiku">4</a></sup
+    <footer>
+        <ol>
+            {
+                allFootnotesList.map((footnote) => (
+                    <li id={footnote.id}>
+                        <a
+                            href={footnote.linkUrl || "#"}
+                            target={footnote.openInNewTab ? "_blank" : "_self"}
+                            rel={
+                                footnote.openInNewTab
+                                    ? "noopener noreferrer"
+                                    : ""
+                            }
                         >
-                    </p>
-                </li>
-            </ul>
-            <div>…some other content here…</div>
-        </main>
-        <footer>
-            <ol>
-                <li id="nuyorican">
-                    <a href="#" target="_blank">Nuyorican</a>
-                    <p>
-                        nuyorican a portmanteu of "New Yorker" and "Puerto
-                        Rican"
-                    </p>
-                </li>
-                <li id="designengineer">
-                    <a href="#" target="_blank">LinkedIn</a>
-                    <p>
-                        I’d like to add you to my professional network on
-                        LinkedIn
-                    </p>
-                </li>
-                <li id="places">
-                    <a href="#" target="_blank">My favorite places</a>
-                    <p>some of my favorite places to go in the bay</p>
-                </li>
-                <li id="haiku">
-                    <a href="#" target="_blank">Haiku Notes</a>
-                    <p>a place to write and reflect</p>
-                </li>
-            </ol>
-        </footer> -->
-    </body>
-</html>
+                            <span class="footnoteCount">{footnote.index}</span>{" "}
+                            {footnote.linkTitle}
+                        </a>
+                        <p>{footnote.linkDescription}</p>
+                    </li>
+                ))
+            }
+        </ol>
+    </footer>
+</Layout>
