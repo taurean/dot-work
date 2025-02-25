@@ -1,8 +1,6 @@
 ---
 import Head from "../components/Head.astro";
 import Layout from "../layouts/Layout.astro";
-
-import Analytics from "@vercel/analytics/astro";
 import { shuffleArray } from "../vendor/util";
 
 // src/components/DefinitionsList.astro
@@ -63,7 +61,6 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
 <html lang="en">
     <Head title="taurean" />
     <body>
-        <Analytics />
         <header>
             <div>
                 <h1>Taurean C. Bryant</h1>
