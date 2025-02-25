@@ -1,6 +1,8 @@
 ---
 import Head from "../components/Head.astro";
 import Layout from "../layouts/Layout.astro";
+
+import Analytics from "@vercel/analytics/astro";
 import { shuffleArray } from "../vendor/util";
 
 // src/components/DefinitionsList.astro
@@ -57,50 +59,61 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
 }));
 ---
 
-<Layout title="taurean bryant">
-    <header>
-        <div>
-            <h1>Taurean C. Bryant</h1>
-            <span>noun</span>
-            <button>Pronounce tor-ee-ehn</button>
-        </div>
-        <a href="/now">What's new</a>
-    </header>
-    <main>
-        <h2>definition</h2>
-        <ul>
-            {
-                processedDefinitions.map((definition) => (
-                    <li>
-                        <p set:html={definition.processedContent} />
-                    </li>
-                ))
-            }
-        </ul>
-        <div>…some other content here…</div>
-    </main>
+<!doctype html>
+<html lang="en">
+    <Head title="taurean" />
+    <body>
+        <Analytics />
+        <header>
+            <div>
+                <h1>Taurean C. Bryant</h1>
+                <span>noun</span>
+                <button>Pronounce tor-ee-ehn</button>
+            </div>
+            <a href="/now">What's new</a>
+        </header>
+        <main>
+            <h2>definition</h2>
+            <ul>
+                {
+                    processedDefinitions.map((definition) => (
+                        <li>
+                            <p set:html={definition.processedContent} />
+                        </li>
+                    ))
+                }
+            </ul>
+            <div>…some other content here…</div>
+        </main>
 
-    <footer>
-        <ol>
-            {
-                orderedFootnoteList.map((footnote) => (
-                    <li id={footnote.id}>
-                        <a
-                            href={footnote.linkUrl || "#"}
-                            target={footnote.openInNewTab ? "_blank" : "_self"}
-                            rel={
-                                footnote.openInNewTab
-                                    ? "noopener noreferrer"
-                                    : ""
-                            }
-                        >
-                            <span class="footnoteCount">{footnote.index}</span>{" "}
-                            {footnote.linkTitle}
-                        </a>
-                        <p>{footnote.linkDescription}</p>
-                    </li>
-                ))
-            }
-        </ol>
-    </footer>
-</Layout>
+        <footer>
+            <ol>
+                {
+                    orderedFootnoteList.map((footnote) => (
+                        <li id={footnote.id}>
+                            <a
+                                href={footnote.linkUrl || "#"}
+                                target={
+                                    footnote.openInNewTab ? "_blank" : "_self"
+                                }
+                                rel={
+                                    footnote.openInNewTab
+                                        ? "noopener noreferrer"
+                                        : ""
+                                }
+                            >
+                                <span class="footnoteCount">
+                                    {footnote.index}
+                                </span>{" "}
+                                {footnote.linkTitle}
+                            </a>
+                            <p>{footnote.linkDescription}</p>
+                        </li>
+                    ))
+                }
+            </ol>
+        </footer>
+    </body>
+</html>
+
+<style></style>
