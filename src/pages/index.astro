@@ -26,11 +26,11 @@ const randomizedDefinitions = shuffleArray(definitions);
 
 // Process footnotes after randomization
 const footnoteRegistry = new Map();
-const orderedFootnoteList = [];
+const orderedFootnoteList: any[] = [];
 
 // Build the footnote mapping and list from randomized definitions
 randomizedDefinitions.forEach((definition) => {
-    definition.footnotes.forEach((footnote) => {
+    definition.footnotes.forEach((footnote: any) => {
         if (!footnoteRegistry.has(footnote.id)) {
             const footnoteWithIndex = {
                 ...footnote,
@@ -43,10 +43,10 @@ randomizedDefinitions.forEach((definition) => {
 });
 
 // Process content to replace footnote placeholders
-function processContent(content) {
+function processContent(content: any) {
     return content.replace(
         /\[\[([^:]+?)(?::([^:]+?))?\]\]/g,
-        (match, textOrId, possibleId) => {
+        (match: any, textOrId: any, possibleId: any) => {
             if (possibleId) {
                 const footnoteInfo = footnoteRegistry.get(possibleId);
                 if (footnoteInfo) {
