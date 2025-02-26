@@ -1,5 +1,7 @@
+import type { definition } from "./types";
+
 // Function to shuffle array - executes on the server for each request
-export const shuffleArray = (originalArray: any[]) => {
+export const shuffleArray = (originalArray: definition[]) => {
     const shuffledArray = structuredClone(originalArray);
     for (
         let currentIndex = shuffledArray.length - 1;

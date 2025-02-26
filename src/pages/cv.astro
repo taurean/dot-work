@@ -1,20 +1,27 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <title>Taurean dot Work</title>
-    </head>
-    <body>
-        <header>
+<Layout title="CV">
+    <header>
+        <div>
             <h1>Taurean C. Bryant</h1>
-        </header>
-        <main></main>
-        <footer></footer>
-    </body>
-</html>
+        </div>
+        <a href="/now">Whats new</a>
+    </header>
+    <main>
+        <section>
+            <h2>about</h2>
+            <p>
+                I'm a designer-turned-engineer with a deep love of the web, how
+                it democratizes access and information, and how it impacts
+                society.
+            </p>
+            <p><a href="/">Wait… who?</a></p>
+        </section>
+    </main>
+    <footer>
+        <Footer />
+    </footer>
+</Layout>

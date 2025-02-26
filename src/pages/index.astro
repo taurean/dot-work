@@ -1,26 +1,12 @@
 ---
 import Head from "../components/Head.astro";
+import Footer from "../components/Footer.astro";
 import Layout from "../layouts/Layout.astro";
+import { shuffleArray } from "../util/function";
 import type { definition, footnote } from "../util/types";
 
 // src/components/DefinitionsList.astro
 import { definitions } from "../data/definitions";
-
-const shuffleArray = (originalArray: definition[]) => {
-    const shuffledArray = [...originalArray];
-    for (
-        let currentIndex = shuffledArray.length - 1;
-        currentIndex > 0;
-        currentIndex--
-    ) {
-        const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
-        [shuffledArray[currentIndex], shuffledArray[randomIndex]] = [
-            shuffledArray[randomIndex],
-            shuffledArray[currentIndex],
-        ];
-    }
-    return shuffledArray;
-};
 
 // Randomize definitions - different order for each page request
 const randomizedDefinitions = shuffleArray(definitions);
@@ -73,21 +59,20 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
 }));
 ---
 
-<!doctype html>
-<html lang="en">
-    <Head title="taurean" />
-    <body>
-        <header>
-            <div>
-                <h1>Taurean C. Bryant</h1>
-                <span>noun</span>
-                <button>Pronounce tor-ee-ehn</button>
-            </div>
-            <a href="/now">What's new</a>
-        </header>
-        <main>
+<Layout title="Taurean C Bryant">
+    <nav><p><a href="/cv">Hiring? check out my cv & portfolio </a></p></nav>
+    <header>
+        <div>
+            <h1>Taurean C. Bryant</h1>
+            <span>noun</span>
+            <button>Pronounce tor-ee-ehn</button>
+        </div>
+        <a href="/now">What's new</a>
+    </header>
+    <main>
+        <section>
             <h2>definition</h2>
-            <ul>
+            <ol>
                 {
                     processedDefinitions.map((definition) => (
                         <li>
@@ -95,11 +80,35 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
                         </li>
                     ))
                 }
+            </ol>
+        </section>
+        <section>
+            <h2>usage</h2>
+            <ul>
+                <li></li>
             </ul>
-            <div>…some other content here…</div>
-        </main>
+        </section>
+        <section>
+            <h2>Etymology</h2>
+            <dl>
+                <dt><strong>tau</strong></dt>
+                <dd>Meaning “lion” in Twana and Sotho.</dd>
+                <dt><strong>ean</strong></dt>
+                <dd>
+                    A common suffix to names in Armenian, translating to “son
+                    of”.
+                </dd>
+            </dl>
+            <p>
+                Bringing them together as “son of lions”, alluding to my parents
+                who share the astrology Leo sign. (I think the “r” in the middle
+                just made the name pronounceable.)
+            </p>
+        </section>
+    </main>
 
-        <footer>
+    <footer>
+        <section>
             <ol>
                 {
                     orderedFootnoteList.map((footnote) => (
@@ -125,8 +134,9 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
                     ))
                 }
             </ol>
-        </footer>
-    </body>
-</html>
+        </section>
+        <Footer />
+    </footer>
+</Layout>
 
 <style></style>

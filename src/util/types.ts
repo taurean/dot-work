@@ -10,3 +10,9 @@ export type definition = {
     content: string;
     footnotes: footnote[];
 };
+
+export type quote = {
+    quote: string;
+    source: string;
+    sourceUrl?: URL;
+};
