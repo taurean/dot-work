@@ -8,11 +8,3 @@
 @import "./modules/reset.css" layer(reset);
 @import "./modules/space.css" layer(token);
 @import "./modules/typography.css" layer(utility);
-
-* {
-    color: red;
-}
-
-body {
-    font-family: sans-serif;
-}
