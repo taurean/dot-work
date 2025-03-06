@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export const PronounceGuide = () => {
     const [playing, setIsPlaying] = useState<boolean>(false);
@@ -6,12 +6,14 @@ export const PronounceGuide = () => {
     const mp3Path =
         "https://cdn.taurean.work/name%20pronounciation%20guide.mp3";
 
+    // Create audio object on component mount
+    useEffect(() => {
+        audioRef.current = new Audio(mp3Path);
+        audioRef.current.onended = () => setIsPlaying(false);
+    }, []);
+
     const handleOnClick = () => {
-        // Create audio object on first click (lazy initialization)
-        if (!audioRef.current) {
-            audioRef.current = new Audio(mp3Path);
-            audioRef.current.onended = () => setIsPlaying(false);
-        }
+        if (!audioRef.current) return;
 
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
