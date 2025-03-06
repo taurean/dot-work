@@ -1,5 +1,5 @@
 ---
-const { title = "Taurean.work", ...props } = Astro.props;
+const { title = "Taurean.work" } = Astro.props;
 
 import "../styles/stylebase.css";
 ---
@@ -9,6 +9,5 @@ import "../styles/stylebase.css";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <!-- <link rel="stylesheet" href="/src/styles/stylebase.css" /> -->
-    <title>{props.title}</title>
+    <title>{title}</title>
 </head>
