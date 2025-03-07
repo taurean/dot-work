@@ -66,12 +66,46 @@ const getOura = async (type) => {
 		}
 };
 
+// Helper function to check if Oura data is empty
+const isOuraDataEmpty = (ouraResponse) => {
+  return (
+    !ouraResponse || 
+    !ouraResponse.data || 
+    ouraResponse.data.length === 0
+  );
+};
+
 export async function GET(request) {
   try {
     const motionRecord = await getOura("motion");
     const sleepRecord = await getOura("sleep");
     const staminaRecord = await getOura("stamina");
 
+    // Check if any of the records have empty data
+    const hasEmptyData = isOuraDataEmpty(motionRecord) || 
+                         isOuraDataEmpty(sleepRecord) || 
+                         isOuraDataEmpty(staminaRecord);
+
+    // Skip database insert if any data is empty
+    if (hasEmptyData) {
+      console.log("Skipping database insert - empty data detected from Oura API");
+      return new Response(
+        JSON.stringify({ 
+          message: "No new data available from Oura. Database update skipped.",
+          emptyData: {
+            motion: isOuraDataEmpty(motionRecord),
+            sleep: isOuraDataEmpty(sleepRecord),
+            stamina: isOuraDataEmpty(staminaRecord)
+          }
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Only proceed with database insert if all data is available
     const { error } = await supabase.from(OURA_TABLE_NAME).insert({
       stamina: staminaRecord,
       sleep: sleepRecord,
