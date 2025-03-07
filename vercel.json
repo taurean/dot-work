@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/oura.mjs",
+      "schedule": "30 8 * * *"
+    }
+  ]
+}
