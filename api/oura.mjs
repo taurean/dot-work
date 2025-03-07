@@ -67,11 +67,10 @@ const getOura = async (type) => {
 };
 
 export async function GET(request) {
-
-    const motionRecord = getOura("motion");
-    const sleepRecord = getOura("sleep");
-    const staminaRecord = getOura("stamina");
-
+  try {
+    const motionRecord = await getOura("motion");
+    const sleepRecord = await getOura("sleep");
+    const staminaRecord = await getOura("stamina");
 
     const { error } = await supabase.from(OURA_TABLE_NAME).insert({
       stamina: staminaRecord,
@@ -79,5 +78,26 @@ export async function GET(request) {
       motion: motionRecord,
     });
 
-    return new Response('Vercel Oura function has run');
+    if (error) {
+      console.error("Supabase insert error:", error);
+      return new Response(JSON.stringify({ error: "Failed to insert data" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response(
+      JSON.stringify({ message: "Vercel Oura function has run successfully" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  } catch (error) {
+    console.error("Function error:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
