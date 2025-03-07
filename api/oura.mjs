@@ -1,7 +1,12 @@
 import { waitUntil, getEnv } from "@vercel/functions";
 import { createClient } from "@supabase/supabase-js";
 
-const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, OURA_API_KEY } = getEnv();
+const {
+  SUPABASE_URL,
+  SUPABASE_SERVICE_ROLE_KEY,
+  OURA_API_KEY,
+  OURA_TABLE_NAME,
+} = getEnv();
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
@@ -70,13 +75,11 @@ export async function GET(request) {
     const staminaRecord = getOura("stamina");
 
 
-    const { error } = await supabase.from('countries').insert(
-        {
-            stamina: staminaRecord,
-            sleep: sleepRecord,
-            motion: motionRecord 
-        }
-    )
+    const { error } = await supabase.from(OURA_TABLE_NAME).insert({
+      stamina: staminaRecord,
+      sleep: sleepRecord,
+      motion: motionRecord,
+    });
 
     return new Response('Vercel Oura function has run');
 }
