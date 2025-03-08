@@ -26,17 +26,56 @@ interface HealthCardProps {
 const { data, error } = await supabase
     .from(OURA_TABLE_NAME)
     .select("*")
-    .order("created_at", { ascending: false })
+    .order("id", { ascending: false })
     .limit(1);
 
-let healthData = {};
+// Type definition for our health data
+interface HealthData {
+    updated: {
+        date: string;
+        time: string;
+        timestamp: string;
+    };
+    staminaScore: number;
+    sleepScore: number;
+    motionScore: number;
+}
 
-if (data) {
+// Initialize with null instead of empty object for better type checking
+let healthData: HealthData | null = null;
+
+if (data && data.length > 0) {
+    // Extract date string from the created_at timestamp which is already in PST
+    const timestamp = data[0].created_at;
+    // Format the date without changing the timezone
+    const date = new Date(timestamp);
+
+    // Format month, day, year
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    // Format time with AM/PM
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Convert 0 to 12
+
+    // Format date and time separately
+    const formattedDate = `${month}.${day}.${year}`;
+    const formattedTime = `${hours}:${minutes} ${ampm} PST`;
+    const formattedTimestamp = `${formattedDate} • ${formattedTime}`;
+
     healthData = {
-        updated: new Date(data[0].created_at),
-        staminaScore: data[0].stamina.data[0].score,
-        sleepScore: data[0].sleep.data[0].score,
-        motionScore: data[0].motion.data[0].score,
+        updated: {
+            date: formattedDate,
+            time: formattedTime,
+            timestamp: formattedTimestamp,
+        },
+        staminaScore: data[0]?.stamina?.data?.[0]?.score,
+        sleepScore: data[0]?.sleep?.data?.[0]?.score,
+        motionScore: data[0]?.motion?.data?.[0]?.score,
     };
 }
 
@@ -55,21 +94,51 @@ const HealthCard = ({ type }: HealthCardProps) => {
 };
 
 export const HealthSummary = () => {
+    if (error) {
+        return (
+            <div className="health-summary error">
+                Failed to load health data
+            </div>
+        );
+    }
+
+    if (!healthData) {
+        return (
+            <div className="health-summary loading">
+                <LoadingData />
+            </div>
+        );
+    }
+
     return (
-        <>
-            <div>
-                <h2>Stamina</h2>
-                <div>Stamina score is {healthData.staminaScore}%</div>
+        <div className="health-summary">
+            <h2>Health Summary</h2>
+            <div className="metrics">
+                <div className="metric-card">
+                    <h3>Stamina</h3>
+                    <div className="score">
+                        Score: {healthData.staminaScore}%
+                    </div>
+                </div>
+
+                <div className="metric-card">
+                    <h3>Sleep</h3>
+                    <div className="score">Score: {healthData.sleepScore}%</div>
+                </div>
+
+                <div className="metric-card">
+                    <h3>Motion</h3>
+                    <div className="score">
+                        Score: {healthData.motionScore}%
+                    </div>
+                </div>
             </div>
-            <div>
-                <h2>Sleep</h2>
-                <div>Sleep score is {healthData.sleepScore}%</div>
+            <hr />
+            <div className="last-updated">
+                <time>{healthData.updated.date}</time>
+                <span> • </span>
+                <time>{healthData.updated.time}</time>
             </div>
-            <div>
-                <h2>Motion</h2>
-                <div>Motion score is {healthData.motionScore}%</div>
-            </div>
-            <div>updated {JSON.stringify(healthData.updated)}</div>
-        </>
+        </div>
     );
 };
