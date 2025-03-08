@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import styles from "./PronounceGuide.module.css";
 
 export const PronounceGuide = () => {
   const [playing, setIsPlaying] = useState<boolean>(false);
@@ -26,7 +27,7 @@ export const PronounceGuide = () => {
   return (
     <button
       onClick={handleOnClick}
-      className={`button ${playing ? "isPlaying" : ""}`}
+      className={`button ${styles.pronounceButton} ${playing ? styles.isPlaying : ""}`}
     >
       <span data-visually-hidden>Pronounce</span>
       <span>tor-ee-ehn</span>
