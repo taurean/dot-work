@@ -116,6 +116,13 @@ export const HealthSummary = () => {
             <div className="metrics">
                 <div className="metric-card">
                     <h3>Stamina</h3>
+                    <div className="status">
+                        {healthData.staminaScore < 60
+                            ? "depleted"
+                            : healthData.staminaScore > 85
+                              ? "energized"
+                              : "balanced"}
+                    </div>
                     <div className="score">
                         Score: {healthData.staminaScore}%
                     </div>
@@ -123,11 +130,25 @@ export const HealthSummary = () => {
 
                 <div className="metric-card">
                     <h3>Sleep</h3>
+                    <div className="status">
+                        {healthData.sleepScore < 60
+                            ? "drained"
+                            : healthData.sleepScore > 85
+                              ? "revitalized"
+                              : "rested"}
+                    </div>
                     <div className="score">Score: {healthData.sleepScore}%</div>
                 </div>
 
                 <div className="metric-card">
                     <h3>Motion</h3>
+                    <div className="status">
+                        {healthData.motionScore < 60
+                            ? "idle"
+                            : healthData.motionScore > 85
+                              ? "active"
+                              : "moving"}
+                    </div>
                     <div className="score">
                         Score: {healthData.motionScore}%
                     </div>
