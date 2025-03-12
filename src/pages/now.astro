@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Footer from "../components/Footer.astro";
 import { HealthSummary } from "../components/HealthSummary";
+import Availability from "../components/Availability.astro";
 ---
 
 <Layout title="Now">
@@ -15,6 +16,7 @@ import { HealthSummary } from "../components/HealthSummary";
         <a href="/">Taurean?</a>
     </header>
     <h2>Now</h2>
+    <div><Availability /></div>
     <main>
         <section>
             <HealthSummary client:load />
