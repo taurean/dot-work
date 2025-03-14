@@ -1,7 +1,8 @@
 ---
-function nameMonth(dateInput: string) {
-    const date = new Date(dateInput);
-    const month = date.getMonth();
+function formatDate(dateInput: string) {
+    // const mockAvailDate = new Date("04-01-2025");
+    const availDate = new Date(dateInput);
+    const today = new Date();
 
     const months = [
         "January",
@@ -18,11 +19,17 @@ function nameMonth(dateInput: string) {
         "December",
     ];
 
-    return months[month];
+    if (availDate.getFullYear() > today.getFullYear()) {
+        return `in ${availDate.getFullYear()}`;
+    } else if (availDate.getMonth() <= today.getMonth()) {
+        return `this month`;
+    } else {
+        return `on ${months[availDate.getMonth()]} ${availDate.getDate()}`;
+    }
 }
 
 async function fetchAvailability() {
-    const userId = "15850083-dc6a-4421-80b2-18dad8d79f5a";
+    const userId = import.meta.env.CUSHION_USER_ID;
     try {
         const baseUrl = "https://my.cushionapp.com";
         const response = await fetch(
@@ -31,11 +38,9 @@ async function fetchAvailability() {
 
         let data = await response.json();
         const dataDate = new Date(data);
-        let month = nameMonth(data.availability.available_on);
+        let date = formatDate(data.availability.available_on);
 
-        console.log(month);
-
-        return month;
+        return date;
     } catch (error) {
         console.error("error fetching availability:", error);
     }
@@ -46,7 +51,7 @@ const status = fetchAvailability();
 
 <div class="availability-container">
     <p>
-        Availability starting in {status}
+        Availability starting <span style="color: red;">{status}</span>
     </p>
     <ul>
         <li><button id="cpy-btn">copy email</button></li>
@@ -55,7 +60,8 @@ const status = fetchAvailability();
         </li>
         <li>
             <a href="https://bsky.app/profile/taurean.posts.cv" target="_blank"
-                >Bluesky</a>
+                >Bluesky</a
+            >
         </li>
     </ul>
 </div>
