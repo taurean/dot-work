@@ -110,11 +110,12 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
 
     <footer>
         <section>
-            <ol>
+            <ol class="footnotes">
                 {
                     orderedFootnoteList.map((footnote) => (
-                        <li id={footnote.id}>
+                        <li>
                             <a
+                                id={footnote.id}
                                 href={footnote.linkUrl || "#"}
                                 target={
                                     footnote.openInNewTab ? "_blank" : "_self"
@@ -124,13 +125,16 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
                                         ? "noopener noreferrer"
                                         : ""
                                 }
+                                aria-describedby={`${footnote.id}-descriptor`}
                             >
-                                <span class="footnoteCount">
+                                <span class="footnoteCount" aria-hidden="true">
                                     {footnote.index}
                                 </span>{" "}
                                 {footnote.linkTitle}
                             </a>
-                            <p>{footnote.linkDescription}</p>
+                            <p id={`${footnote.id}-descriptor`}>
+                                {footnote.linkDescription}
+                            </p>
                         </li>
                     ))
                 }
@@ -140,4 +144,9 @@ const processedDefinitions = randomizedDefinitions.map((definition) => ({
     </footer>
 </Layout>
 
-<style></style>
+<style>
+    .footnotes {
+        list-style-type: none;
+        padding-inline-start: 0;
+    }
+</style>
