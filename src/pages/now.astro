@@ -16,10 +16,13 @@ import Availability from "../components/Availability.astro";
         <a href="/">Taurean?</a>
     </header>
     <h2>Now</h2>
-    <div><Availability /></div>
     <main>
         <section>
             <HealthSummary client:load />
+        </section>
+        <section>
+            <h3>Contact</h3>
+            <Availability />
         </section>
     </main>
     <footer>
