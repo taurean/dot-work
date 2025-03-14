@@ -45,7 +45,20 @@ const status = fetchAvailability();
 ---
 
 <div class="availability-container">
-    <p id="availability-data" class="availability-data loading">
+    <p>
         Availability starting in {status}
     </p>
+    <ul>
+        <li><button id="cpy-btn">copy email</button></li>
+        <li><a href="" target="_blank">Meet up</a></li>
+        <li><a href="" target="_blank">Bluesky</a></li>
+    </ul>
 </div>
+
+<script>
+    const btn = document.getElementById("cpy-btn");
+
+    btn?.addEventListener("click", () =>
+        navigator.clipboard.writeText("taurean@bryant.land"),
+    );
+</script>
