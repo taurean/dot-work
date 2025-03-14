@@ -3,20 +3,13 @@ import type { definition } from "../util/types";
 export const definitions: definition[] = [
     {
         content:
-            "[[Nuyorican:nuyorican]] [[design]] [[engineer]] living in the [[Bay Area:bayarea]] of California.",
+            "[[Nuyorican:nuyorican]] design [[engineer]] living in the [[Bay Area:bayarea]] of California.",
         footnotes: [
             {
                 id: "nuyorican",
                 linkTitle: "Nuyorican",
                 linkUrl: new URL("https://gawain-pvt.netlify.app/"),
                 linkDescription: `Nuyorican is a portmanteu of "New Yorker" and "Puerto Rican"`,
-                openInNewTab: true,
-            },
-            {
-                id: "design",
-                linkTitle: "Design site",
-                linkUrl: new URL("https://example.com"),
-                linkDescription: `where I post snippets of design work`,
                 openInNewTab: true,
             },
             {
@@ -38,7 +31,7 @@ export const definitions: definition[] = [
         ],
     },
     {
-        content: "certified shitposter and [[feedmaker:bluesky]]",
+        content: "maker of [[feeds:bluesky]]",
         footnotes: [
             {
                 id: "bluesky",
@@ -55,8 +48,8 @@ export const definitions: definition[] = [
             {
                 id: "haiku",
                 linkTitle: "Haiku Notes",
-                linkUrl: new URL("https://example.com"),
-                linkDescription: `description here`,
+                linkUrl: new URL("https://preview.haikunotes.com"),
+                linkDescription: `a journaling tool to help with self reflection`,
                 openInNewTab: true,
             },
         ],
@@ -67,8 +60,8 @@ export const definitions: definition[] = [
             {
                 id: "glass",
                 linkTitle: "Glass",
-                linkUrl: new URL("https://example.com"),
-                linkDescription: `description here`,
+                linkUrl: new URL("https://glass.photo/taurean"),
+                linkDescription: `a social network for photographers focused on their work`,
                 openInNewTab: true,
             },
         ],
@@ -79,8 +72,8 @@ export const definitions: definition[] = [
             {
                 id: "literalclub",
                 linkTitle: "Literal Club",
-                linkUrl: new URL("https://example.com"),
-                linkDescription: `description here`,
+                linkUrl: new URL("https://literal.club/taurean"),
+                linkDescription: `a goodreads competitor but… better`,
                 openInNewTab: true,
             },
         ],
@@ -91,8 +84,8 @@ export const definitions: definition[] = [
             {
                 id: "letterboxd",
                 linkTitle: "Letterboxd",
-                linkUrl: new URL("https://example.com"),
-                linkDescription: `description here`,
+                linkUrl: new URL("https://letterboxd.com/taurean/stats/"),
+                linkDescription: `goodreads but for movies`,
                 openInNewTab: true,
             },
         ],
@@ -103,8 +96,8 @@ export const definitions: definition[] = [
             {
                 id: "recordclub",
                 linkTitle: "Record Club",
-                linkUrl: new URL("https://example.com"),
-                linkDescription: `description here`,
+                linkUrl: new URL("https://record.club/taurean"),
+                linkDescription: `goodreads but for music. actually, letterboxd for music.`,
                 openInNewTab: true,
             },
         ],
