@@ -54,7 +54,11 @@ const status = fetchAvailability();
         Availability starting <span style="color: red;">{status}</span>
     </p>
     <ul>
-        <li><button id="cpy-btn">copy email</button></li>
+        <li>
+            <button id="cpy-btn" aria-label="Copy email address to clipboard"
+                >copy email</button
+            >
+        </li>
         <li>
             <a href="https://savvycal.com/taurean" target="_blank">Meet up</a>
         </li>
@@ -68,8 +72,30 @@ const status = fetchAvailability();
 
 <script>
     const btn = document.getElementById("cpy-btn");
+    // Store original button text to ensure we always have it
+    const originalButtonText = "copy email";
+    // Use ReturnType to properly type the timeout ID
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-    btn?.addEventListener("click", () =>
-        navigator.clipboard.writeText("taurean@bryant.land"),
-    );
+    if (btn) {
+        btn.addEventListener("click", () => {
+            // Copy email to clipboard
+            navigator.clipboard.writeText("taurean@bryant.land");
+
+            // Update button text with success message
+            btn.textContent = "Copied!";
+
+            // Clear any existing timeout to prevent reverting during rapid clicks
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+
+            // Set a new timeout to revert the button text after 750ms
+            timeoutId = setTimeout(() => {
+                // Always revert to the original text, not what was captured at click time
+                btn.textContent = originalButtonText;
+                timeoutId = null;
+            }, 750);
+        });
+    }
 </script>
