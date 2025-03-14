@@ -1,0 +1,69 @@
+---
+function nameMonth(dateInput: string) {
+    const date = new Date(dateInput);
+    const month = date.getMonth();
+
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
+    return months[month];
+}
+
+async function fetchAvailability() {
+    const userId = "15850083-dc6a-4421-80b2-18dad8d79f5a";
+    try {
+        const baseUrl = "https://my.cushionapp.com";
+        const response = await fetch(
+            `${baseUrl}/api/v1/users/${userId}/availability`,
+        );
+
+        let data = await response.json();
+        const dataDate = new Date(data);
+        let month = nameMonth(data.availability.available_on);
+
+        console.log(month);
+
+        return month;
+    } catch (error) {
+        console.error("error fetching availability:", error);
+    }
+}
+
+const status = fetchAvailability();
+---
+
+<div class="availability-container">
+    <p>
+        Availability starting in {status}
+    </p>
+    <ul>
+        <li><button id="cpy-btn">copy email</button></li>
+        <li>
+            <a href="https://savvycal.com/taurean" target="_blank">Meet up</a>
+        </li>
+        <li>
+            <a href="https://bsky.app/profile/taurean.posts.cv" target="_blank"
+                >Bluesky</a>
+        </li>
+    </ul>
+</div>
+
+<script>
+    const btn = document.getElementById("cpy-btn");
+
+    btn?.addEventListener("click", () =>
+        navigator.clipboard.writeText("taurean@bryant.land"),
+    );
+</script>
