@@ -1,11 +1,29 @@
 ---
 import Head from "../components/Head.astro";
-const { title = "Taurean.work" } = Astro.props;
+const { 
+    title = "Taurean.work",
+    description,
+    image,
+    type,
+    robots,
+    twitterCard,
+    twitterUsername
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-    <Head title={title} />
+    <Head 
+        title={title}
+        description={description}
+        image={image}
+        type={type}
+        robots={robots}
+        twitterCard={twitterCard}
+        twitterUsername={twitterUsername}
+    >
+        <slot name="head" />
+    </Head>
     <body>
         <slot />
     </body>
