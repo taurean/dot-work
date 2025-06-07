@@ -12,11 +12,16 @@ export const quotes: quote[] = [
         sourceUrl: new URL("https://www.linkedin.com/in/klarence/"),
     },
     {
-        quote: `asdfasdfasd 1`,
-        source: `source 1`,
+        quote: `god i'm so sick of taurean`,
+        source: `Eve`,
     },
     {
-        quote: `xcvbxcvbxcvbxcvb 2`,
-        source: `source 2`,
+        quote: `dewey and taurean are the two most level headed people i've ever known in my life, they will never be stripped of power`,
+        source: `Eve`,
+    },
+    {
+        quote: `Whenever I talk to Taurean, I remind myself on how to pronounce his name beforehand by saying "minotaur" in my head—which I then envision Taurean being half minotaur, half human whenever we meet virtually since I can't see his bottom half on screen`,
+        source: `Pedro Peguero Jr.`,
+        sourceUrl: new URL("https://www.pedropeguerojr.com/"),
     },
 ];
